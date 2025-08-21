@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bismillah Mobile Phone & Repairing Center</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="login-screen" class="center-wrap">
+    <form id="login-form" class="card" autocomplete="off" aria-label="Admin login form">
+      <h1 class="brand">Bismillah Mobile</h1>
+      <p class="muted">Admin Login</p>
+      <label>
+        <span>Username</span>
+        <input id="login-username" name="username" type="text" required />
+      </label>
+      <label>
+        <span>Password</span>
+        <input id="login-password" name="password" type="password" required />
+      </label>
+      <button type="submit" class="btn primary">Log in</button>
+      <p class="muted tiny">Default: admin / admin123 (demo only)</p>
+    </form>
+  </div>
+
+  <div id="app" class="app hidden" aria-hidden="true">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-mark">📱</div>
+        <div class="logo-text">
+          <strong>Bismillah Mobile</strong>
+          <small>Phone & Repairing Center</small>
+        </div>
+      </div>
+     <nav class="nav">
+        <button class="nav-link active" data-target="dashboard" aria-controls="dashboard" aria-selected="true">Dashboard</button>
+        <button class="nav-link" data-target="inventory" aria-controls="inventory">Inventory</button>
+        <button class="nav-link" data-target="settings" aria-controls="settings">Settings</button>
+      </nav>
+      <div class="sidebar-footer">
+        <div>
+  <h6>
+    Created by 
+    <a  href="https://abdullahax.com/index.html" target="_blank" rel="noopener noreferrer">
+      Abdullahax.com
+    </a>
+  </h6>
+</div> 
+        <button id="logout-btn" class="btn ghost">Log out</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="searchbar">
+          <input id="global-search" type="search" placeholder="Search items, brands, SKUs..." aria-label="Global search"/>
+        </div>
+        <div class="top-actions">
+          <button id="add-item-btn" class="btn primary">+ Add Item</button>
+        </div>
+        
+      </header>
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="view">
+        <div class="grid cards">
+          <div class="stat card" aria-live="polite">
+            <div class="stat-label">Total SKUs</div>
+            <div id="stat-skus" class="stat-value">0</div>
+          </div>
+          <div class="stat card">
+            <div class="stat-label">Units in Stock</div>
+            <div id="stat-units" class="stat-value">0</div>
+          </div>
+          <div class="stat card">
+            <div class="stat-label">Inventory Value (Cost)</div>
+            <div id="stat-cost" class="stat-value">Rs 0</div>
+          </div>
+          <div class="stat card">
+            <div class="stat-label">Potential Sales Value</div>
+            <div id="stat-sales" class="stat-value">Rs 0</div>
+          </div>
+          <div class="stat card warn">
+            <div class="stat-label">Low-stock Items</div>
+            <div id="stat-low" class="stat-value">0</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Stock by Category</h3>
+          </div>
+          <canvas id="category-chart" height="220" aria-label="Bar chart of stock by category" role="img"></canvas>
+        </div>
+      </section>
+
+      <!-- INVENTORY -->
+      <section id="inventory" class="view hidden" aria-hidden="true">
+        <div class="filters card">
+          <div class="row">
+            <label>Category
+              <select id="filter-category">
+                <option value="">All</option>
+              </select>
+            </label>
+            <label>Brand
+              <select id="filter-brand">
+                <option value="">All</option>
+              </select>
+            </label>
+            <label>Compatibility
+              <input id="filter-compat" type="text" placeholder="e.g., iPhone 13, Galaxy S21" />
+            </label>
+            
+            <label>Low stock only
+              <input id="filter-low" type="checkbox" />
+            </label>
+            <button id="clear-filters" class="btn ghost">Clear</button>
+          </div>
+        </div>
+
+        <div class="card table-wrap">
+          <table class="table" id="inventory-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>SKU</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Sale Price (Rs)</th>
+                <th>Stock</th>
+                <th>Low @</th>
+                <th>Compatibility</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-body">
+              <!-- rows injected by JS -->
+            </tbody>
+          </table>
+          <div id="empty-state" class="empty hidden">
+            <p>No items match your filters.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section id="settings" class="view hidden" aria-hidden="true">
+        <div class="card">
+          <div class="card-header"><h3>Data</h3></div>
+          <div class="row">
+            <div>
+              <button id="export-json" class="btn">Export db.json</button>
+              <p class="muted tiny">Downloads your current data (from this browser) as a JSON file.</p>
+            </div>
+            <div>
+              <label class="file">
+                <input id="import-json" type="file" accept="application/json" />
+                <span class="btn">Import db.json</span>
+              </label>
+              <p class="muted tiny">Replaces current data with the selected JSON file.</p>
+            </div>
+          </div>
+          <hr/>
+          <div class="row">
+            <div>
+              <h4>Demo credentials</h4>
+              <p class="muted tiny">Username: <code>admin</code> &nbsp; Password: <code>admin123</code></p>
+              <p class="muted tiny">For production, add real auth on a server. This demo stores data locally in your browser.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- MODAL -->
+  <div id="modal" class="modal hidden" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modal-title">Add Item</h3>
+        <button id="modal-close" class="icon-btn" aria-label="Close">✕</button>
+      </div>
+      <form id="item-form" class="modal-body">
+        <input type="hidden" id="item-id" />
+        <div class="grid two">
+          <label>Name
+            <input id="item-name" required />
+          </label>
+          <label>SKU
+            <input id="item-sku" required />
+          </label>
+          <label>Category
+            <input id="item-category" list="category-list" required />
+            <datalist id="category-list"></datalist>
+          </label>
+          <label>Brand
+            <input id="item-brand" list="brand-list" required />
+            <datalist id="brand-list"></datalist>
+          </label>
+          <label>Cost Price (Rs)
+            <input id="item-cost" type="number" min="0" step="0.01" required />
+          </label>
+          <label>Sale Price (Rs)
+            <input id="item-sale" type="number" min="0" step="0.01" required />
+          </label>
+          <label>Stock
+            <input id="item-stock" type="number" min="0" step="1" required />
+          </label>
+          <label>Low-stock threshold
+            <input id="item-low" type="number" min="0" step="1" value="5" required />
+          </label>
+          <label class="full">Compatibility (comma-separated models)
+            <input id="item-compat" placeholder="e.g., iPhone 13, Galaxy S21" />
+          </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="modal-cancel" class="btn ghost">Cancel</button>
+          <button type="submit" class="btn primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+<script src="app.js?v=3"></script>
+</body>
+</html>
